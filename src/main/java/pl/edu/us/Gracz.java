@@ -9,19 +9,17 @@ public class Gracz {
 	Plansza plansza;
 	int rozmiarPlanszy;
 
-	int[] wymiaryStatkow = { 2, 2, 2, 3, 3, 4 };
-
 	public Gracz(int rozmiarPlanszy) {
 		this.rozmiarPlanszy = rozmiarPlanszy;
 
-		List<Statek> statki = generujStatki(wymiaryStatkow.length);
+		List<Statek> statki = generujStatki(new int[] { 2, 2, 2, 3, 3, 4 });
 
 		plansza = new Plansza(rozmiarPlanszy, statki);
 	}
 
-	private List<Statek> generujStatki(int iloscStatkow) {
+	private List<Statek> generujStatki(int[] wymiaryStatkow) {
 		List<Statek> statki = new ArrayList<Statek>();
-		for (int i = 0; i < iloscStatkow; i++) {
+		for (int i = 0; i < wymiaryStatkow.length; i++) {
 			Statek statek = generujStatek(wymiaryStatkow[i]);
 
 			if (!czyKolizja(statki, statek)) {
