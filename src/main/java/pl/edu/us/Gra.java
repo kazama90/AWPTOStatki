@@ -58,13 +58,22 @@ public class Gra {
 		return false;
 	}
 
-	private void piszWynik(int wynik) {
-		if (wynik == 1) {
-			System.out.println("trafiony");
-		} else if (wynik == 2) {
-			System.out.println("zatopiony");
-		} else if (wynik == 0) {
-			System.out.println("pudlo");
+	void piszWynik(int wynik) {
+		try {
+			System.out.println(pobierzWynik(wynik));
+		} catch (Exception ex) {
+			System.out.println(ex.toString());
 		}
+	}
+
+	String pobierzWynik(int wynik) throws Exception {
+		if (wynik == 1) {
+			return "trafiony";
+		} else if (wynik == 2) {
+			return "zatopiony";
+		} else if (wynik == 0) {
+			return "pudlo";
+		}
+		throw new Exception("Wynik poza zakresem");
 	}
 }
