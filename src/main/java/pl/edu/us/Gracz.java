@@ -6,10 +6,12 @@ import java.util.List;
 import java.util.Random;
 
 public class Gracz {
+	String nazwa;
 	Plansza plansza;
 	int rozmiarPlanszy;
 
-	public Gracz(int rozmiarPlanszy) {
+	public Gracz(String nazwa, int rozmiarPlanszy) {
+		this.nazwa=nazwa;
 		this.rozmiarPlanszy = rozmiarPlanszy;
 
 		List<Statek> statki = generujStatki(new int[] { 2, 2, 2, 3, 3, 4 });

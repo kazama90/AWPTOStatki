@@ -14,60 +14,57 @@ public class Gra {
 
 	public Gra() {
 		tura = 1;
-		gracz1 = new Gracz(rozmiarPlanszy);
-		gracz2 = new Gracz(rozmiarPlanszy);
+		gracz1 = new Gracz("gracz1", rozmiarPlanszy);
+		gracz2 = new Gracz("gracz2", rozmiarPlanszy);
 	}
 
 	public String Graj() {
 		boolean koniecGry = false;
 		while (!koniecGry) {
-			int wynik;
 			System.out.println("Tura " + tura);
 			if (aktualnyGracz) {
-				wynik = gracz1.Ruch(gracz2.plansza);
-				
-				if(wynik==1)
-				{
-					System.out.println("trafiony");
-				}
-				else if(wynik==2)
-				{
-					System.out.println("zatopiony");
-				}
-				else if(wynik==0)
-				{
-					System.out.println("pudlo");
-				}
-				
-				if (!gracz2.plansza.IstniejeStatek()) {
-					koniecGry = true;
-					return "Wygral gracz1";
+
+				koniecGry = ruchGracza(gracz1, gracz2.plansza);
+
+				if (koniecGry) {
+					return "Wygral " + gracz1.nazwa;
 				}
 
 			} else {
-				wynik = gracz2.Ruch(gracz1.plansza);
-				
-				if(wynik==1)
-				{
-					System.out.println("trafiony");
-				}
-				else if(wynik==2)
-				{
-					System.out.println("zatopiony");
-				}
-				else if(wynik==0)
-				{
-					System.out.println("pudlo");
-				}
-				if (!gracz1.plansza.IstniejeStatek()) {
-					koniecGry = true;
-					return "Wygral gracz2";
+
+				koniecGry = ruchGracza(gracz2, gracz1.plansza);
+
+				if (koniecGry) {
+					return "Wygral " + gracz2.nazwa;
 				}
 			}
-			if(wynik==0)
-				aktualnyGracz = !aktualnyGracz;
+
 			tura++;
 		}
 		return "Nikt nie wygral";
+	}
+
+	private boolean ruchGracza(Gracz gracz, Plansza plansza) {
+		int wynik = gracz.Ruch(plansza);
+
+		piszWynik(wynik);
+
+		if (wynik == 0)
+			aktualnyGracz = !aktualnyGracz;
+
+		if (!plansza.IstniejeStatek()) {
+			return true;
+		}
+		return false;
+	}
+
+	private void piszWynik(int wynik) {
+		if (wynik == 1) {
+			System.out.println("trafiony");
+		} else if (wynik == 2) {
+			System.out.println("zatopiony");
+		} else if (wynik == 0) {
+			System.out.println("pudlo");
+		}
 	}
 }
