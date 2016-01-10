@@ -29,6 +29,5 @@ public class Statek {
 	public boolean CzyPunktWStatku(Point punkt)
 	{
 		return punktyStatku.contains(punkt);
-	}
-	
+	}	
 }

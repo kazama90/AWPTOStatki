@@ -7,20 +7,69 @@ import java.util.Random;
 
 public class Gracz {
 	Plansza plansza;
+	int rozmiarPlanszy;
+
+	int[] wymiaryStatkow = { 2, 2, 2, 3, 3, 4 };
 
 	public Gracz(int rozmiarPlanszy) {
+		this.rozmiarPlanszy = rozmiarPlanszy;
 
-		List<Point> punkty = new ArrayList<Point>();
-
-		punkty.add(new Point(1, 1));
-		punkty.add(new Point(1, 2));
-		punkty.add(new Point(1, 3));
-		punkty.add(new Point(1, 4));
-
-		List<Statek> statki = new ArrayList<Statek>();
-		statki.add(new Statek(punkty));
+		List<Statek> statki = generujStatki(wymiaryStatkow.length);
 
 		plansza = new Plansza(rozmiarPlanszy, statki);
+	}
+
+	private List<Statek> generujStatki(int iloscStatkow) {
+		List<Statek> statki = new ArrayList<Statek>();
+		for (int i = 0; i < iloscStatkow; i++) {
+			Statek statek = generujStatek(wymiaryStatkow[i]);
+
+			if (!czyKolizja(statki, statek)) {
+				statki.add(statek);
+			} else {
+				i--;
+			}
+		}
+		return statki;
+	}
+
+	private boolean czyKolizja(List<Statek> statki, Statek statekNowy) {
+		for (Statek statek : statki) {
+			for (Point punkt : statekNowy.punktyStatku) {
+				if (statek.CzyPunktWStatku(punkt))
+					return true;
+			}
+		}
+		return false;
+	}
+
+	private Statek generujStatek(int wymiarStatku) {
+		Random randomizer = new Random();
+		List<Point> punkty = new ArrayList<Point>();
+
+		Point punkt1 = new Point(randomizer.nextInt(rozmiarPlanszy),
+				randomizer.nextInt(rozmiarPlanszy));
+
+		int kierunek = randomizer.nextInt(2);
+
+		if (kierunek == 0) {
+			if (punkt1.x + wymiarStatku >= rozmiarPlanszy) {
+				punkt1.x -= wymiarStatku;
+			}
+			punkty.add(punkt1);
+			for (int i = 1; i < wymiarStatku; i++) {
+				punkty.add(new Point(punkt1.x + i, punkt1.y));
+			}
+		} else {
+			if (punkt1.y + wymiarStatku >= rozmiarPlanszy) {
+				punkt1.y -= wymiarStatku;
+			}
+			punkty.add(punkt1);
+			for (int i = 1; i < wymiarStatku; i++) {
+				punkty.add(new Point(punkt1.x, punkt1.y + i));
+			}
+		}
+		return new Statek(punkty);
 	}
 
 	public int Ruch(Plansza planszaPrzeciwnika) {
