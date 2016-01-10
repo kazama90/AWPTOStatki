@@ -12,28 +12,10 @@ import org.junit.Test;
 public class GraTest {
 
 	Gra gra;
-	private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
-	private final ByteArrayOutputStream errContent = new ByteArrayOutputStream();
-
-	@After
-	public void cleanUpStreams() {
-		System.setOut(null);
-		System.setErr(null);
-	}
 
 	@Before
 	public void initialize() {
-		initializeGra();
-		setUpStreams();
-	}
-
-	public void initializeGra() {
 		gra = new Gra();
-	}
-
-	public void setUpStreams() {
-		System.setOut(new PrintStream(outContent));
-		System.setErr(new PrintStream(errContent));
 	}
 
 	@Test
@@ -46,7 +28,7 @@ public class GraTest {
 	@Test
 	public void piszWynikTest2() throws Exception  {
 		
-		assertEquals("zatopiony", gra.pobierzWynik(2));		
+		assertSame("zatopiony", gra.pobierzWynik(2));		
 	}
 	
 	@Test(expected = Exception.class) 
